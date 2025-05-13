@@ -8,28 +8,30 @@ using namespace __gnu_pbds;
 template <typename T>
 using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-ll powermodulo(ll a, ll b){
-    ll ans = 1;
-    while(b != 0){
-        if(b & 1){
-          ans = (ans * a) % M;
-          b = b - 1;
-        }
-        else{
-          a = (a * a) % M;
-          b >>= 1;
-        }
-    }
-    return ans;
-}
-
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for(int i = 0; i<n; i++){
+    ll n, k, x;
+    cin >> n >> k >> x;
+    vector<ll> a(n);
+    ll sum = 0ll;
+    for(ll i = 0; i<n; i++){
         cin >> a[i];
+        sum += a[i];
     }
+    if(sum * k < x){
+        cout << 0;
+        return;
+    }
+    ll ans = 0;
+    ll p = x / sum;
+    sum = sum * p;
+    for(ll i = n-1; i >= 0; i--){
+        sum += a[i];
+        if(sum >= x){
+            ans = (i + 1) + (k - p - 1)*n;
+            break;
+        }
+    }
+    cout << ans;
 }
 
 int main() {
